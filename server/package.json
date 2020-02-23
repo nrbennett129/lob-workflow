@@ -1,0 +1,34 @@
+{
+  "name": "lob-workflow-graphql",
+  "version": "1.0.0",
+  "description": "A GraphQL server for workflow app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon -r dotenv/config app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nrbennett129/lob-workflow.git"
+  },
+  "keywords": [
+    "graphql"
+  ],
+  "author": "Nick Bennett",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nrbennett129/lob-workflow/issues"
+  },
+  "homepage": "https://github.com/nrbennett129/lob-workflow#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-graphql": "^0.9.0",
+    "graphql": "^14.6.0",
+    "mongoose": "^5.9.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2",
+    "dotenv": "^8.2.0"
+  }
+}
