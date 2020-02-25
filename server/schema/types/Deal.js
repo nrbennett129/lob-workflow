@@ -1,16 +1,13 @@
-const graphql = require('graphql')
-const graphqlDate = require('graphql-iso-date')
-const UserType = require('./User')
-const User = require('../../models/User')
-
-const { GraphQLDateTime } = graphqlDate
-const {
+import {
   GraphQLObjectType,
   GraphQLString,
   GraphQLID,
   GraphQLList,
   GraphQLNonNull
-} = graphql
+} from 'graphql'
+import { GraphQLDateTime } from 'graphql-iso-date'
+import UserType from './User'
+import User from '../../models/User'
 
 const dealType = new GraphQLObjectType({
   name: 'Deal',
@@ -94,4 +91,4 @@ const dealType = new GraphQLObjectType({
   })
 })
 
-module.exports = dealType
+export default dealType

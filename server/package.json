@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon -r dotenv/config app.js",
+    "start": "nodemon -r dotenv/config -r esm app.js",
     "lint": "./node_modules/eslint/bin/eslint.js \"./**/*.js\""
   },
   "repository": {
@@ -23,6 +23,7 @@
   "homepage": "https://github.com/nrbennett129/lob-workflow#readme",
   "dependencies": {
     "cors": "^2.8.5",
+    "esm": "^3.2.25",
     "express": "^4.17.1",
     "express-graphql": "^0.9.0",
     "graphql": "^14.6.0",

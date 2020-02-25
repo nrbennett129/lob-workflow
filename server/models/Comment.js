@@ -1,5 +1,4 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+import mongoose, { Schema } from 'mongoose'
 
 const commentSchema = new Schema({
   issueId: {
@@ -23,4 +22,4 @@ const commentSchema = new Schema({
   }
 })
 
-module.exports = mongoose.model('Comment', commentSchema)
+export default mongoose.model('Comment', commentSchema)

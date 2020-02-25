@@ -1,24 +1,24 @@
-const graphql = require('graphql')
-const TaskType = require('../types/Task')
-const TaskInput = require('../inputs/TaskInput')
-const Task = require('../../models/Task')
-
-const {
-  GraphQLNonNull
-} = graphql
+import {
+  GraphQLNonNull,
+  GraphQLID
+} from 'graphql'
+import TaskType from '../types/Task'
+import TaskInput from '../inputs/TaskInput'
+import Task from '../../models/Task'
 
 const taskMutation = {
   type: TaskType,
   args: {
-    input: {
-      type: new GraphQLNonNull(TaskInput)
-    }
+    dealId: { type: new GraphQLNonNull(GraphQLID) },
+    input: { type: TaskInput }
   },
-  resolve: (_source, { input }) => {
-    // code to get data from db or other source
-    const task = new Task(input)
+  resolve: (_source, { dealId, input }) => {
+    const task = new Task({
+      dealID: dealId,
+      ...input
+    })
     return task.save()
   }
 }
 
-module.exports = taskMutation
+export default taskMutation

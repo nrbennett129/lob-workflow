@@ -1,8 +1,6 @@
-const graphql = require('graphql')
-const DealType = require('../types/Deal')
-const Deal = require('../../models/Deal')
-
-const { GraphQLID, GraphQLNonNull } = graphql
+import { GraphQLID, GraphQLNonNull } from 'graphql'
+import DealType from '../types/Deal'
+import Deal from '../../models/Deal'
 
 const dealQuery = {
   type: DealType,
@@ -18,4 +16,4 @@ const dealQuery = {
   }
 }
 
-module.exports = dealQuery
+export default dealQuery

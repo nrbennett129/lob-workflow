@@ -1,5 +1,4 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+import mongoose, { Schema } from 'mongoose'
 
 const userSchema = new Schema({
   first: {
@@ -17,9 +16,9 @@ const userSchema = new Schema({
     trim: true,
     required: [true, 'User must have an email.']
   },
-  phone: { 
+  phone: {
     type: String,
-    trim: true 
+    trim: true
   },
   roles: [String]
 })
@@ -34,4 +33,4 @@ userSchema
     return fullname
   })
 
-module.exports = mongoose.model('User', userSchema)
+export default mongoose.model('User', userSchema)

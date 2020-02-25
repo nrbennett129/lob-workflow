@@ -1,8 +1,6 @@
-const graphql = require('graphql')
-const TaskType = require('../types/Task')
-const Task = require('../../models/Task')
-
-const { GraphQLID, GraphQLNonNull } = graphql
+import { GraphQLID, GraphQLNonNull } from 'graphql'
+import TaskType from '../types/Task'
+import Task from '../../models/Task'
 
 const taskQuery = {
   type: TaskType,
@@ -18,4 +16,4 @@ const taskQuery = {
   }
 }
 
-module.exports = taskQuery
+export default taskQuery

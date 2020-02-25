@@ -1,7 +1,7 @@
 const PORT = process.env.PORT
 const MONGODB_URI = process.env.DB_HOST
 
-module.exports = {
+export {
   PORT,
   MONGODB_URI
 }

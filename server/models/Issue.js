@@ -1,5 +1,4 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+import mongoose, { Schema } from 'mongoose'
 
 const issueSchema = new Schema({
   taskId: {
@@ -20,4 +19,4 @@ const issueSchema = new Schema({
   tags: [String]
 })
 
-module.exports = mongoose.model('Issue', issueSchema)
+export default mongoose.model('Issue', issueSchema)

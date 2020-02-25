@@ -1,21 +1,27 @@
-const graphql = require('graphql')
-const addUserMutation = require('../mutations/addUser')
-const addDealMutation = require('../mutations/addDeal')
-const addTaskMutation = require('../mutations/addTask')
-const addIssueMutation = require('../mutations/addIssue')
-const addCommentMutation = require('../mutations/addComment')
-
-const { GraphQLObjectType } = graphql
+import { GraphQLObjectType } from 'graphql'
+import addUserMutation from '../mutations/addUser'
+import addDealMutation from '../mutations/addDeal'
+import updateDealMutation from '../mutations/updateDeal'
+import addTaskMutation from '../mutations/addTask'
+import updateTaskMutation from '../mutations/updateTask'
+import addIssueMutation from '../mutations/addIssue'
+import addCommentMutation from '../mutations/addComment'
 
 const MutationType = new GraphQLObjectType({
   name: 'Mutation',
   fields: {
     addUser: addUserMutation,
+
     addDeal: addDealMutation,
+    updateDeal: updateDealMutation,
+
     addTask: addTaskMutation,
+    updateTask: updateTaskMutation,
+
     addIssue: addIssueMutation,
+
     addComment: addCommentMutation
   }
 })
 
-module.exports = MutationType
+export default MutationType

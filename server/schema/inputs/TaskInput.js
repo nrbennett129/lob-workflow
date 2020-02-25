@@ -1,23 +1,14 @@
-const graphql = require('graphql')
-const graphqlDate = require('graphql-iso-date')
-
-const {
+import {
   GraphQLInputObjectType,
   GraphQLString,
-  GraphQLID,
-  GraphQLNonNull
-} = graphql
-
-const { GraphQLDateTime } = graphqlDate
+  GraphQLID
+} from 'graphql'
+import { GraphQLDateTime } from 'graphql-iso-date'
 
 const taskInput = new GraphQLInputObjectType({
   name: 'TaskInput',
   description: 'The input for a new task.',
   fields: () => ({
-    dealId: {
-      type: new GraphQLNonNull(GraphQLID),
-      description: 'The id of the deal associated with this task.'
-    },
     startDate: {
       type: GraphQLDateTime,
       description: 'The date to start the task.'
@@ -54,4 +45,4 @@ const taskInput = new GraphQLInputObjectType({
   })
 })
 
-module.exports = taskInput
+export default taskInput

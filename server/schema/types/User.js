@@ -1,12 +1,12 @@
-const graphql = require('graphql')
-
-const {
+import {
   GraphQLObjectType,
   GraphQLString,
   GraphQLID,
   GraphQLList,
   GraphQLNonNull
-} = graphql
+} from 'graphql'
+import TaskType from './Task'
+import Task from '../../models/Task'
 
 const userType = new GraphQLObjectType({
   name: 'User',
@@ -37,8 +37,14 @@ const userType = new GraphQLObjectType({
     roles: {
       type: new GraphQLList(GraphQLString),
       description: 'The roles the user has in the workflow. The first item of the array will be the primary role'
+    },
+    tasks: {
+      type: new GraphQLList(TaskType),
+      resolve: (_source) => {
+        return Task.find({ assignedToId: _source.id })
+      }
     }
   })
 })
 
-module.exports = userType
+export default userType

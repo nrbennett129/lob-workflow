@@ -1,8 +1,6 @@
-const graphql = require('graphql')
-const UserType = require('../types/User')
-const User = require('../../models/User')
-
-const { GraphQLID, GraphQLNonNull } = graphql
+import { GraphQLID, GraphQLNonNull } from 'graphql'
+import UserType from '../types/User'
+import User from '../../models/User'
 
 const userQuery = {
   type: UserType,
@@ -18,4 +16,4 @@ const userQuery = {
   }
 }
 
-module.exports = userQuery
+export default userQuery

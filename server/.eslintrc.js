@@ -4,6 +4,7 @@ module.exports = {
     es6: true,
     node: true
   },
+  plugins: ["import"],
   extends: [
     'standard'
   ],

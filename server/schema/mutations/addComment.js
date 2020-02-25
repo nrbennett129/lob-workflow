@@ -1,12 +1,10 @@
-const graphql = require('graphql')
-const CommentType = require('../types/Comment')
-const Comment = require('../../models/Comment')
-
-const {
+import {
   GraphQLNonNull,
   GraphQLString,
   GraphQLID
-} = graphql
+} from 'graphql'
+import CommentType from '../types/Comment'
+import Comment from '../../models/Comment'
 
 const commentMutation = {
   type: CommentType,
@@ -26,4 +24,4 @@ const commentMutation = {
   }
 }
 
-module.exports = commentMutation
+export default commentMutation

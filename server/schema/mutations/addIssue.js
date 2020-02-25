@@ -1,12 +1,10 @@
-const graphql = require('graphql')
-const IssueType = require('../types/Issue')
-const Issue = require('../../models/Issue')
-
-const {
+import {
   GraphQLNonNull,
   GraphQLString,
   GraphQLID
-} = graphql
+} from 'graphql'
+import IssueType from '../types/Issue'
+import Issue from '../../models/Issue'
 
 const issueMutation = {
   type: IssueType,
@@ -24,4 +22,4 @@ const issueMutation = {
   }
 }
 
-module.exports = issueMutation
+export default issueMutation

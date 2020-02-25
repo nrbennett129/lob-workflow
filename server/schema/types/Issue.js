@@ -1,14 +1,12 @@
-const graphql = require('graphql')
-const CommentType = require('./Comment')
-const Comment = require('../../models/Comment')
-const Issue = require('../../models/Issue')
-
-const {
+import {
   GraphQLObjectType,
   GraphQLString,
   GraphQLID,
   GraphQLList
-} = graphql
+} from 'graphql'
+import CommentType from './Comment'
+import Comment from '../../models/Comment'
+import Issue from '../../models/Issue'
 
 const issueType = new GraphQLObjectType({
   name: 'Issue',
@@ -45,4 +43,4 @@ const issueType = new GraphQLObjectType({
   })
 })
 
-module.exports = issueType
+export default issueType

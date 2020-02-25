@@ -1,12 +1,10 @@
-const graphql = require('graphql')
-const UserType = require('../types/User')
-const User = require('../../models/User')
-
-const {
+import {
   GraphQLNonNull,
   GraphQLString,
   GraphQLList
-} = graphql
+} from 'graphql'
+import UserType from '../types/User'
+import User from '../../models/User'
 
 const userMutation = {
   type: UserType,
@@ -30,4 +28,4 @@ const userMutation = {
   }
 }
 
-module.exports = userMutation
+export default userMutation

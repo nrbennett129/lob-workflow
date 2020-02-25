@@ -1,26 +1,25 @@
-const graphql = require('graphql')
-const DealType = require('../types/Deal')
-const Deal = require('../../models/Deal')
-
-const {
+import {
   GraphQLNonNull,
   GraphQLString
-} = graphql
+} from 'graphql'
+import DealType from '../types/Deal'
+import DealInput from '../inputs/DealInput'
+import Deal from '../../models/Deal'
 
 const dealMutation = {
   type: DealType,
   args: {
     name: { type: new GraphQLNonNull(GraphQLString) },
-    client: { type: new GraphQLNonNull(GraphQLString) }
+    client: { type: new GraphQLNonNull(GraphQLString) },
+    input: { type: DealInput }
   },
-  resolve: (_source, args) => {
-    // code to get data from db or other source
+  resolve: (_source, { name, client }) => {
     const deal = new Deal({
-      name: args.name,
-      client: args.client
+      name: name,
+      client: client
     })
     return deal.save()
   }
 }
 
-module.exports = dealMutation
+export default dealMutation

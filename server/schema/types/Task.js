@@ -1,21 +1,17 @@
-const graphql = require('graphql')
-const graphqlDate = require('graphql-iso-date')
-const UserType = require('./User')
-const DealType = require('./Deal')
-const IssueType = require('./Issue')
-const User = require('../../models/User')
-const Issue = require('../../models/Issue')
-const Deal = require('../../models/Deal')
-
-const {
+import {
   GraphQLObjectType,
   GraphQLString,
   GraphQLID,
   GraphQLList,
   GraphQLNonNull
-} = graphql
-
-const { GraphQLDateTime } = graphqlDate
+} from 'graphql'
+import { GraphQLDateTime } from 'graphql-iso-date'
+import UserType from './User'
+import DealType from './Deal'
+import IssueType from './Issue'
+import User from '../../models/User'
+import Issue from '../../models/Issue'
+import Deal from '../../models/Deal'
 
 const taskType = new GraphQLObjectType({
   name: 'Task',
@@ -82,4 +78,4 @@ const taskType = new GraphQLObjectType({
   })
 })
 
-module.exports = taskType
+export default taskType

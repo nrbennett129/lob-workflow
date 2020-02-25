@@ -1,11 +1,9 @@
-const graphql = require('graphql')
-const userQuery = require('../queries/user')
-const usersQuery = require('../queries/users')
-const dealQuery = require('../queries/deal')
-const dealsQuery = require('../queries/deals')
-const taskQuery = require('../queries/task')
-
-const { GraphQLObjectType } = graphql
+import { GraphQLObjectType } from 'graphql'
+import userQuery from '../queries/user'
+import usersQuery from '../queries/users'
+import dealQuery from '../queries/deal'
+import dealsQuery from '../queries/deals'
+import taskQuery from '../queries/task'
 
 const QueryType = new GraphQLObjectType({
   name: 'Query',
@@ -18,4 +16,4 @@ const QueryType = new GraphQLObjectType({
   }
 })
 
-module.exports = QueryType
+export default QueryType

@@ -1,5 +1,4 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+import mongoose, { Schema } from 'mongoose'
 
 const dealSchema = new Schema({
   name: {
@@ -24,4 +23,4 @@ const dealSchema = new Schema({
   maintIds: [{ type: Schema.Types.ObjectId, ref: 'User' }]
 })
 
-module.exports = mongoose.model('Deal', dealSchema)
+export default mongoose.model('Deal', dealSchema)
