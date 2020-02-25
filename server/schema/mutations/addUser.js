@@ -1,32 +1,32 @@
-const graphql = require('graphql');
-const UserType = require('../types/User');
-const User = require('../../models/User');
+const graphql = require('graphql')
+const UserType = require('../types/User')
+const User = require('../../models/User')
 
-const { 
+const {
   GraphQLNonNull,
   GraphQLString,
   GraphQLList
- } = graphql;
+} = graphql
 
-const userMutation= {
+const userMutation = {
   type: UserType,
   args: {
-    first: {type: new GraphQLNonNull(GraphQLString)},
-    last:  {type: new GraphQLNonNull(GraphQLString)},
-    email: {type: new GraphQLNonNull(GraphQLString)},
-    phone: {type: GraphQLString},
-    roles: {type: new GraphQLList(GraphQLString)}
+    first: { type: new GraphQLNonNull(GraphQLString) },
+    last: { type: new GraphQLNonNull(GraphQLString) },
+    email: { type: new GraphQLNonNull(GraphQLString) },
+    phone: { type: GraphQLString },
+    roles: { type: new GraphQLList(GraphQLString) }
   },
   resolve: (_source, args) => {
     // code to get data from db or other source
-    let user = new User({
+    const user = new User({
       first: args.first,
       last: args.last,
       email: args.email,
       phone: args.phone,
       rolse: args.roles
     })
-    return user.save();
+    return user.save()
   }
 }
 

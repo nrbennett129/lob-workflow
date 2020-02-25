@@ -1,60 +1,65 @@
-const graphql = require('graphql');
-const UserType = require('./User');
+const graphql = require('graphql')
+const graphqlDate = require('graphql-iso-date')
+const UserType = require('./User')
 const DealType = require('./Deal')
-const User = require('../../models/User');
+const IssueType = require('./Issue')
+const User = require('../../models/User')
+const Issue = require('../../models/Issue')
 const Deal = require('../../models/Deal')
 
-const { 
-  GraphQLObjectType, 
+const {
+  GraphQLObjectType,
   GraphQLString,
   GraphQLID,
   GraphQLList,
   GraphQLNonNull
- } = graphql;
+} = graphql
+
+const { GraphQLDateTime } = graphqlDate
 
 const taskType = new GraphQLObjectType({
   name: 'Task',
   fields: () => ({
-    id: { 
+    id: {
       type: new GraphQLNonNull(GraphQLID),
       description: 'A unquie identifier for the task.'
     },
-    deal: { 
-      type: new GraphQLNonNull(DealType), 
+    deal: {
+      type: new GraphQLNonNull(DealType),
       description: 'The deal associated with this task.',
       resolve: (_source) => {
-        return Deal.findById(_source.dealId);
+        return Deal.findById(_source.dealId)
       }
     },
-    startDate: { 
-      type: GraphQLString, 
+    startDate: {
+      type: GraphQLDateTime,
       description: 'The date to start the task.'
     },
-    dueDate: { 
-      type: GraphQLString,
+    dueDate: {
+      type: GraphQLDateTime,
       description: 'The date the task is due.'
     },
-    createdDate: { 
-      type: GraphQLString,
+    createdDate: {
+      type: GraphQLDateTime,
       description: 'The date the task was created.'
     },
-    //TODO: Think about handling situations of reopening closed tasks.
-    completedDate: { 
-      type: GraphQLString,
+    // TODO: Think about handling situations of reopening closed tasks.
+    completedDate: {
+      type: GraphQLDateTime,
       description: 'The date the task was resolved (solved or closed).'
     },
     assignedTo: {
       type: UserType,
       description: 'The user the task is currently assigned to.',
       resolve: (_source) => {
-        return User.findById(_source.assignedToId);
+        return User.findById(_source.assignedToId)
       }
     },
     createdBy: {
       type: UserType,
       description: 'The task\'s creator.',
       resolve: (_source) => {
-        return User.findById(_source.createdById);
+        return User.findById(_source.createdById)
       }
     },
     priority: {
@@ -64,11 +69,17 @@ const taskType = new GraphQLObjectType({
     subject: {
       type: GraphQLString,
       description: 'The subject of the task (e.g. New Deal Modeling, Maintenance)'
+    },
+    issues: {
+      type: GraphQLList(IssueType),
+      description: 'The issues associated with this task.',
+      resolve: (_source) => {
+        return Issue.find({ taskId: _source.id })
+      }
     }
-    // TODO: Implement IssueType and issues endpoint
     // TODO: Implement TaskActionType and taskHistory endpoint
 
   })
-});
+})
 
-module.exports = taskType;
+module.exports = taskType

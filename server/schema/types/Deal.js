@@ -1,36 +1,38 @@
-const graphql = require('graphql');
-const UserType = require('./User');
-const User = require('../../models/User');
+const graphql = require('graphql')
+const graphqlDate = require('graphql-iso-date')
+const UserType = require('./User')
+const User = require('../../models/User')
 
-const { 
-  GraphQLObjectType, 
+const { GraphQLDateTime } = graphqlDate
+const {
+  GraphQLObjectType,
   GraphQLString,
   GraphQLID,
   GraphQLList,
   GraphQLNonNull
- } = graphql;
+} = graphql
 
 const dealType = new GraphQLObjectType({
   name: 'Deal',
   fields: () => ({
-    id: { 
+    id: {
       type: new GraphQLNonNull(GraphQLID),
       description: 'A unquie identifier for the deal.'
     },
-    name: { 
-      type: new GraphQLNonNull(GraphQLString), 
-      description: 'The name of the Issuer of the deal.' 
+    name: {
+      type: new GraphQLNonNull(GraphQLString),
+      description: 'The name of the Issuer of the deal.'
     },
-    client: { 
-      type: new GraphQLNonNull(GraphQLString), 
-      description: 'The Collateral Manager or Portfolio Manager of the deal.' 
+    client: {
+      type: new GraphQLNonNull(GraphQLString),
+      description: 'The Collateral Manager or Portfolio Manager of the deal.'
     },
-    closingDate: { 
-      type: GraphQLString, 
+    closingDate: {
+      type: GraphQLDateTime,
       description: 'The closing date of the deal.'
     },
-    repotingDate: { 
-      type: GraphQLString,
+    reportingDate: {
+      type: GraphQLDateTime,
       description: 'The next reporting date.'
     },
     csm: {
@@ -86,10 +88,10 @@ const dealType = new GraphQLObjectType({
       type: new GraphQLList(UserType),
       description: 'A list of the Maintenance analysts associated with the deal.',
       resolve: (_source) => {
-        return User.find({_id: {$in: _source.maintIds}})
+        return User.find({ _id: { $in: _source.maintIds } })
       }
-    },
+    }
   })
-});
+})
 
-module.exports = dealType;
+module.exports = dealType

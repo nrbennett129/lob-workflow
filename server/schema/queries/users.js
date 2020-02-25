@@ -1,5 +1,5 @@
-const { GraphQLList } = require('graphql');
-const UserType = require('../types/User');
+const { GraphQLList } = require('graphql')
+const UserType = require('../types/User')
 const User = require('../../models/User')
 
 const usersQuery = {
@@ -11,4 +11,4 @@ const usersQuery = {
   }
 }
 
-module.exports = usersQuery;
+module.exports = usersQuery

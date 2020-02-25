@@ -1,21 +1,21 @@
 const graphql = require('graphql')
-const UserType = require('../types/User')
-const User = require('../../models/User')
+const TaskType = require('../types/Task')
+const Task = require('../../models/Task')
 
 const { GraphQLID, GraphQLNonNull } = graphql
 
-const userQuery = {
-  type: UserType,
+const taskQuery = {
+  type: TaskType,
   args: {
     id: {
       type: GraphQLNonNull(GraphQLID),
-      description: 'The id of the user.'
+      description: 'The id of the task.'
     }
   },
   resolve: (_source, { id }) => {
     // code to get data from db or other source
-    return User.findById(id)
+    return Task.findById(id)
   }
 }
 
-module.exports = userQuery
+module.exports = taskQuery

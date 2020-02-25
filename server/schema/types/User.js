@@ -1,32 +1,32 @@
-const graphql = require('graphql');
+const graphql = require('graphql')
 
-const { 
-  GraphQLObjectType, 
+const {
+  GraphQLObjectType,
   GraphQLString,
   GraphQLID,
   GraphQLList,
   GraphQLNonNull
- } = graphql;
+} = graphql
 
 const userType = new GraphQLObjectType({
   name: 'User',
   fields: () => ({
-    id: { 
+    id: {
       type: new GraphQLNonNull(GraphQLID)
     },
-    first: { 
-      type: new GraphQLNonNull(GraphQLString), 
-      description: 'The given name of the user.' 
+    first: {
+      type: new GraphQLNonNull(GraphQLString),
+      description: 'The given name of the user.'
     },
-    last: { 
-      type: new GraphQLNonNull(GraphQLString), 
+    last: {
+      type: new GraphQLNonNull(GraphQLString),
       description: 'The surname of the user.'
     },
     name: {
       type: GraphQLString,
       description: 'The full name of the user in LAST, FIRST format.'
     },
-    email: { 
+    email: {
       type: GraphQLString,
       description: 'The email address of the user.'
     },
@@ -39,6 +39,6 @@ const userType = new GraphQLObjectType({
       description: 'The roles the user has in the workflow. The first item of the array will be the primary role'
     }
   })
-});
+})
 
-module.exports = userType;
+module.exports = userType
