@@ -1,5 +1,6 @@
 import express from 'express'
 import graphqlHTTP from 'express-graphql'
+import { printSchema } from 'graphql'
 import cors from 'cors'
 import mongoose from 'mongoose'
 
@@ -23,6 +24,10 @@ app.use('/graphql', graphqlHTTP({
   schema: schema,
   graphiql: true
 }))
+app.use('/gqlSchema', (req, res) => {
+  const schemaString = printSchema(schema, true)
+  res.send(schemaString)
+})
 const port = PORT || 4000
 app.listen(port, () => {
   console.log(`Now listening for requests on port ${port}`)

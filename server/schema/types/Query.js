@@ -1,18 +1,16 @@
 import { GraphQLObjectType } from 'graphql'
-import userQuery from '../queries/user'
-import usersQuery from '../queries/users'
-import dealQuery from '../queries/deal'
-import dealsQuery from '../queries/deals'
+import projectQuery from '../queries/project'
 import taskQuery from '../queries/task'
+import usersQuery from '../queries/users'
+import allProjectsQuery from '../queries/allProjects'
 
 const QueryType = new GraphQLObjectType({
   name: 'Query',
   fields: {
-    user: userQuery,
-    users: usersQuery,
-    deal: dealQuery,
-    deals: dealsQuery,
-    task: taskQuery
+    project: projectQuery,
+    allProjects: allProjectsQuery,
+    task: taskQuery,
+    users: usersQuery
   }
 })
 

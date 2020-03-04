@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose'
+import { toLower } from './utils/setters'
 
 const userSchema = new Schema({
   first: {
@@ -14,13 +15,17 @@ const userSchema = new Schema({
   email: {
     type: String,
     trim: true,
+    set: toLower,
     required: [true, 'User must have an email.']
   },
   phone: {
     type: String,
     trim: true
   },
-  roles: [String]
+  roles: {
+    type: [String],
+    set: toLower
+  }
 })
 
 userSchema

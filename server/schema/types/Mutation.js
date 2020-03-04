@@ -3,8 +3,8 @@ import addUserMutation from '../mutations/addUser'
 import addDealMutation from '../mutations/addDeal'
 import updateDealMutation from '../mutations/updateDeal'
 import addTaskMutation from '../mutations/addTask'
-import updateTaskMutation from '../mutations/updateTask'
 import addIssueMutation from '../mutations/addIssue'
+import updateTaskMutation from '../mutations/updateTask'
 import addCommentMutation from '../mutations/addComment'
 
 const MutationType = new GraphQLObjectType({

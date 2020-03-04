@@ -7,7 +7,7 @@ import { GraphQLDateTime } from 'graphql-iso-date'
 import UserType from './User'
 import User from '../../models/User'
 
-const commentType = new GraphQLObjectType({
+const CommentType = new GraphQLObjectType({
   name: 'Comment',
   fields: () => ({
     id: {
@@ -32,4 +32,4 @@ const commentType = new GraphQLObjectType({
   })
 })
 
-export default commentType
+export default CommentType

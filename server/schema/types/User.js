@@ -6,7 +6,7 @@ import {
   GraphQLNonNull
 } from 'graphql'
 import TaskType from './Task'
-import Task from '../../models/Task'
+import Job from '../../models/Job'
 
 const userType = new GraphQLObjectType({
   name: 'User',
@@ -38,10 +38,18 @@ const userType = new GraphQLObjectType({
       type: new GraphQLList(GraphQLString),
       description: 'The roles the user has in the workflow. The first item of the array will be the primary role'
     },
-    tasks: {
+    assignedTasks: {
       type: new GraphQLList(TaskType),
+      description: 'Tasks currently assigned to the user.',
       resolve: (_source) => {
-        return Task.find({ assignedToId: _source.id })
+        return Job.find({ assignedToId: _source.id })
+      }
+    },
+    createdTasks: {
+      type: new GraphQLList(TaskType),
+      description: 'Tasks currently created by the user.',
+      resolve: (_source) => {
+        return Job.find({ createdById: _source.id })
       }
     }
   })

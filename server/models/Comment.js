@@ -1,10 +1,11 @@
 import mongoose, { Schema } from 'mongoose'
+import { applyCursorsToFilter, applyPagination } from './utils/pagination'
 
 const commentSchema = new Schema({
-  issueId: {
+  jobId: {
     type: Schema.Types.ObjectId,
-    ref: 'Issue',
-    required: [true, 'Comment must be associated with an Issue.']
+    ref: 'Job',
+    required: [true, 'Comment must be associated with a Job.']
   },
   authorId: {
     type: Schema.Types.ObjectId,
@@ -22,4 +23,24 @@ const commentSchema = new Schema({
   }
 })
 
-export default mongoose.model('Comment', commentSchema)
+const Comment = mongoose.model('Comment', commentSchema)
+export default Comment
+
+export async function getAllComments (connField, obj, { first, last, after, before }) {
+  const filter = {
+    [connField]: obj.id
+  }
+  applyCursorsToFilter(filter, after, before)
+
+  const query = Comment.find(filter)
+  query.sort({ _id: -1 })
+
+  const pageInfo = await applyPagination(query, first, last)
+
+  const data = await query
+
+  return {
+    data,
+    pageInfo
+  }
+}

@@ -4,7 +4,7 @@ import {
 } from 'graphql'
 import TaskType from '../types/Task'
 import TaskInput from '../inputs/TaskInput'
-import Task from '../../models/Task'
+import Job from '../../models/Job'
 
 const updateTaskMutation = {
   type: TaskType,
@@ -13,7 +13,7 @@ const updateTaskMutation = {
     input: { type: new GraphQLNonNull(TaskInput) }
   },
   resolve: async (_source, { id, input }) => {
-    const task = await Task.findById(id)
+    const task = await Job.findById(id)
     for (const key in input) {
       task[key] = input[key]
     }

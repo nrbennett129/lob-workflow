@@ -13,10 +13,11 @@ const dealMutation = {
     client: { type: new GraphQLNonNull(GraphQLString) },
     input: { type: DealInput }
   },
-  resolve: (_source, { name, client }) => {
+  resolve: (_source, { name, client, input }) => {
     const deal = new Deal({
       name: name,
-      client: client
+      client: client,
+      ...input
     })
     return deal.save()
   }

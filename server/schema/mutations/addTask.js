@@ -4,18 +4,19 @@ import {
 } from 'graphql'
 import TaskType from '../types/Task'
 import TaskInput from '../inputs/TaskInput'
-import Task from '../../models/Task'
+import Job from '../../models/Job'
 
 const taskMutation = {
   type: TaskType,
   args: {
-    dealId: { type: new GraphQLNonNull(GraphQLID) },
+    projectId: { type: new GraphQLNonNull(GraphQLID) },
     input: { type: TaskInput }
   },
-  resolve: (_source, { dealId, input }) => {
-    const task = new Task({
-      dealID: dealId,
-      ...input
+  resolve: (_source, { projectId, input }) => {
+    const task = new Job({
+      projectId: projectId,
+      ...input,
+      type: 'task'
     })
     return task.save()
   }

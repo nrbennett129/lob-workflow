@@ -1,5 +1,5 @@
 import {
-  GraphQLObjectType,
+  GraphQLInterfaceType,
   GraphQLString,
   GraphQLID,
   GraphQLList,
@@ -8,22 +8,17 @@ import {
   GraphQLInt
 } from 'graphql'
 import { GraphQLDateTime } from 'graphql-iso-date'
+import NodeInterface from './Node'
 
-import JobInterface from '../interfaces/Job'
-
-import UserType from './User'
-import ProjectType from './Project'
-import CommentConnectionType from './CommentConnection'
-import CursorType from './Cursor'
+import UserType from '../types/User'
+import ProjectType from '../types/Project'
 
 import User from '../../models/User'
 import Project from '../../models/Project'
-import { getAllComments } from '../../models/Comment'
-import Job from '../../models/Job'
 
-const IssueType = new GraphQLObjectType({
-  name: 'Issue',
-  interfaces: [JobInterface],
+const JobInterface = new GraphQLInterfaceType({
+  name: 'Job',
+  interfaces: [NodeInterface],
   fields: () => ({
     id: {
       type: new GraphQLNonNull(GraphQLID),
@@ -93,34 +88,6 @@ const IssueType = new GraphQLObjectType({
     description: {
       type: GraphQLString
     },
-    status: {
-      type: GraphQLString,
-      description: 'The current status of the issue. One of Closed, Open, Pending Approval, or Solved.'
-    },
-    comments: {
-      type: CommentConnectionType,
-      description: 'Discussion of the issue.',
-      args: {
-        first: { type: GraphQLInt },
-        last: { type: GraphQLInt },
-        after: { type: CursorType },
-        before: { type: CursorType }
-      },
-      resolve: async (obj, { first, last, after, before }) => {
-        const { data, pageInfo } = await getAllComments('jobId', obj, { first, last, after, before })
-        return {
-          data,
-          pageInfo
-        }
-      }
-    },
-    related: {
-      type: GraphQLList(JobInterface),
-      description: 'Related issues.',
-      resolve: (_source) => {
-        return Job.find({ _id: { $in: _source.relatedIds } })
-      }
-    },
     tags: {
       type: new GraphQLList(GraphQLString),
       description: 'One word descriptors for the task.'
@@ -130,4 +97,4 @@ const IssueType = new GraphQLObjectType({
   })
 })
 
-export default IssueType
+export default JobInterface

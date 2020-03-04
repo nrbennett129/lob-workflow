@@ -3,28 +3,40 @@ import {
   GraphQLString,
   GraphQLID,
   GraphQLList,
-  GraphQLNonNull
+  GraphQLNonNull,
+  GraphQLBoolean,
+  GraphQLInt
 } from 'graphql'
 import { GraphQLDateTime } from 'graphql-iso-date'
-import UserType from './User'
-import DealType from './Deal'
-import IssueType from './Issue'
-import User from '../../models/User'
-import Issue from '../../models/Issue'
-import Deal from '../../models/Deal'
+import JobInterface from '../interfaces/Job'
 
-const taskType = new GraphQLObjectType({
+import UserType from './User'
+import ProjectType from './Project'
+
+import User from '../../models/User'
+import Project from '../../models/Project'
+
+const TaskType = new GraphQLObjectType({
   name: 'Task',
+  interfaces: [JobInterface],
   fields: () => ({
     id: {
       type: new GraphQLNonNull(GraphQLID),
       description: 'A unquie identifier for the task.'
     },
-    deal: {
-      type: new GraphQLNonNull(DealType),
-      description: 'The deal associated with this task.',
-      resolve: (_source) => {
-        return Deal.findById(_source.dealId)
+    createdDate: {
+      type: GraphQLDateTime,
+      description: 'The date the task was created.'
+    },
+    editedDate: {
+      type: GraphQLDateTime,
+      description: 'The date the task was created.'
+    },
+    project: {
+      type: ProjectType,
+      description: 'The project associated with this task.',
+      resolve: (obj) => {
+        return Project.findById(obj.projectId)
       }
     },
     startDate: {
@@ -35,47 +47,54 @@ const taskType = new GraphQLObjectType({
       type: GraphQLDateTime,
       description: 'The date the task is due.'
     },
-    createdDate: {
-      type: GraphQLDateTime,
-      description: 'The date the task was created.'
-    },
     // TODO: Think about handling situations of reopening closed tasks.
     completedDate: {
       type: GraphQLDateTime,
       description: 'The date the task was resolved (solved or closed).'
     },
-    assignedTo: {
+    assignee: {
       type: UserType,
       description: 'The user the task is currently assigned to.',
-      resolve: (_source) => {
-        return User.findById(_source.assignedToId)
+      resolve: (obj) => {
+        return User.findById(obj.assigneeId)
       }
     },
-    createdBy: {
+    creator: {
       type: UserType,
       description: 'The task\'s creator.',
-      resolve: (_source) => {
-        return User.findById(_source.createdById)
+      resolve: (obj) => {
+        return User.findById(obj.creatorId)
       }
     },
+    reviewer: {
+      type: UserType,
+      description: 'The User in charge of reviewing this task.',
+      resolve: (obj) => {
+        return User.findById(obj.reviewerId)
+      }
+    },
+    reviewable: {
+      type: GraphQLBoolean,
+      description: 'True if the task is meant to be reviewed by another User.'
+    },
     priority: {
-      type: GraphQLString,
+      type: GraphQLInt,
       description: 'The priority of the task.'
     },
     subject: {
       type: GraphQLString,
       description: 'The subject of the task (e.g. New Deal Modeling, Maintenance)'
     },
-    issues: {
-      type: GraphQLList(IssueType),
-      description: 'The issues associated with this task.',
-      resolve: (_source) => {
-        return Issue.find({ taskId: _source.id })
-      }
+    description: {
+      type: GraphQLString
+    },
+    tags: {
+      type: new GraphQLList(GraphQLString),
+      description: 'One word descriptors for the task.'
     }
     // TODO: Implement TaskActionType and taskHistory endpoint
 
   })
 })
 
-export default taskType
+export default TaskType

@@ -13,12 +13,11 @@ const commentMutation = {
     authorId: { type: new GraphQLNonNull(GraphQLID) },
     text: { type: new GraphQLNonNull(GraphQLString) }
   },
-  resolve: (_source, args) => {
-    // code to get data from db or other source
+  resolve: (_source, { issueId, authorId, text }) => {
     const comment = new Comment({
-      issueId: args.issueId,
-      authorId: args.authorId,
-      text: args.text
+      jobId: issueId,
+      authorId: authorId,
+      text: text
     })
     return comment.save()
   }

@@ -1,22 +1,22 @@
 import {
   GraphQLNonNull,
-  GraphQLString,
   GraphQLID
 } from 'graphql'
 import IssueType from '../types/Issue'
-import Issue from '../../models/Issue'
+import TaskInput from '../inputs/TaskInput'
+import Job from '../../models/Job'
 
 const issueMutation = {
   type: IssueType,
   args: {
-    taskId: { type: new GraphQLNonNull(GraphQLID) },
-    title: { type: new GraphQLNonNull(GraphQLString) }
+    projectId: { type: new GraphQLNonNull(GraphQLID) },
+    input: { type: TaskInput }
   },
-  resolve: (_source, args) => {
-    // code to get data from db or other source
-    const issue = new Issue({
-      taskId: args.taskId,
-      title: args.title
+  resolve: (_source, { projectId, input }) => {
+    const issue = new Job({
+      projectId: projectId,
+      ...input,
+      type: 'issue'
     })
     return issue.save()
   }
