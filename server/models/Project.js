@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose'
+import { applyCursorsToFilter, applyPagination } from '../models/utils/pagination'
 
 const projectSchema = new Schema({
   created: {
@@ -13,4 +14,25 @@ const projectSchema = new Schema({
   }
 })
 
-export default mongoose.model('Project', projectSchema)
+const Project = mongoose.model('Project', projectSchema)
+export default Project
+
+export async function getAllProjects (obj, { first, last, after, before }, filterOptions) {
+  let filter = {}
+  if (filterOptions) {
+    filter = filterOptions
+  }
+  applyCursorsToFilter(filter, after, before)
+
+  const query = Project.find(filter)
+  query.sort({ _id: -1 })
+
+  const pageInfo = await applyPagination(query, first, last)
+
+  const data = await query
+
+  return {
+    data,
+    pageInfo
+  }
+}

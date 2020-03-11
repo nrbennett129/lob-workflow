@@ -1,14 +1,18 @@
 import {
   GraphQLObjectType,
   GraphQLString,
+  GraphQLInt,
   GraphQLID,
   GraphQLList,
   GraphQLNonNull
 } from 'graphql'
-import TaskType from './Task'
-import Job from '../../models/Job'
+import CursorType from './Cursor'
+import TaskConnectionType from './TaskConnection'
+import IssueConnectionType from './IssueConnection'
 
-const userType = new GraphQLObjectType({
+import { getAllJobs } from '../../models/Job'
+
+const UserType = new GraphQLObjectType({
   name: 'User',
   fields: () => ({
     id: {
@@ -39,20 +43,132 @@ const userType = new GraphQLObjectType({
       description: 'The roles the user has in the workflow. The first item of the array will be the primary role'
     },
     assignedTasks: {
-      type: new GraphQLList(TaskType),
+      type: TaskConnectionType,
       description: 'Tasks currently assigned to the user.',
-      resolve: (_source) => {
-        return Job.find({ assignedToId: _source.id })
+      args: {
+        first: { type: GraphQLInt },
+        last: { type: GraphQLInt },
+        after: { type: CursorType },
+        before: { type: CursorType }
+      },
+      resolve: async (obj, { first, last, after, before }) => {
+        const filterOpts = {
+          type: 'task',
+          assigneeId: obj.id
+        }
+        const { data, pageInfo } = await getAllJobs(obj, { first, last, after, before }, filterOpts)
+        return {
+          data,
+          pageInfo
+        }
       }
     },
     createdTasks: {
-      type: new GraphQLList(TaskType),
-      description: 'Tasks currently created by the user.',
-      resolve: (_source) => {
-        return Job.find({ createdById: _source.id })
+      type: TaskConnectionType,
+      description: 'Tasks currently assigned to the user.',
+      args: {
+        first: { type: GraphQLInt },
+        last: { type: GraphQLInt },
+        after: { type: CursorType },
+        before: { type: CursorType }
+      },
+      resolve: async (obj, { first, last, after, before }) => {
+        const filterOpts = {
+          type: 'task',
+          creatorId: obj.id
+        }
+        const { data, pageInfo } = await getAllJobs(obj, { first, last, after, before }, filterOpts)
+        return {
+          data,
+          pageInfo
+        }
+      }
+    },
+    reviewedTasks: {
+      type: TaskConnectionType,
+      description: 'Tasks currently assigned to the user.',
+      args: {
+        first: { type: GraphQLInt },
+        last: { type: GraphQLInt },
+        after: { type: CursorType },
+        before: { type: CursorType }
+      },
+      resolve: async (obj, { first, last, after, before }) => {
+        const filterOpts = {
+          type: 'task',
+          reviewerId: obj.id
+        }
+        const { data, pageInfo } = await getAllJobs(obj, { first, last, after, before }, filterOpts)
+        return {
+          data,
+          pageInfo
+        }
+      }
+    },
+    assignedIssues: {
+      type: IssueConnectionType,
+      description: 'Issues assigned to the user.',
+      args: {
+        first: { type: GraphQLInt },
+        last: { type: GraphQLInt },
+        after: { type: CursorType },
+        before: { type: CursorType }
+      },
+      resolve: async (obj, { first, last, after, before }) => {
+        const filterOpts = {
+          type: 'issue',
+          assigneeId: obj.id
+        }
+        const { data, pageInfo } = await getAllJobs(obj, { first, last, after, before }, filterOpts)
+        return {
+          data,
+          pageInfo
+        }
+      }
+    },
+    createdIssues: {
+      type: IssueConnectionType,
+      description: 'Issues assigned to the user.',
+      args: {
+        first: { type: GraphQLInt },
+        last: { type: GraphQLInt },
+        after: { type: CursorType },
+        before: { type: CursorType }
+      },
+      resolve: async (obj, { first, last, after, before }) => {
+        const filterOpts = {
+          type: 'issue',
+          creatorId: obj.id
+        }
+        const { data, pageInfo } = await getAllJobs(obj, { first, last, after, before }, filterOpts)
+        return {
+          data,
+          pageInfo
+        }
+      }
+    },
+    reviewedIssues: {
+      type: IssueConnectionType,
+      description: 'Issues reviewed by the user.',
+      args: {
+        first: { type: GraphQLInt },
+        last: { type: GraphQLInt },
+        after: { type: CursorType },
+        before: { type: CursorType }
+      },
+      resolve: async (obj, { first, last, after, before }) => {
+        const filterOpts = {
+          type: 'issue',
+          reviewerId: obj.id
+        }
+        const { data, pageInfo } = await getAllJobs(obj, { first, last, after, before }, filterOpts)
+        return {
+          data,
+          pageInfo
+        }
       }
     }
   })
 })
 
-export default userType
+export default UserType

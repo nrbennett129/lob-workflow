@@ -41,14 +41,14 @@ const ProjectType = new GraphQLObjectType({
     // TODO: Implement some type of reference field to support a related (Deal)type
     createdBy: {
       type: UserType,
-      resolve: (_source) => {
-        return User.findById(_source.createdById)
+      resolve: (obj) => {
+        return User.findById(obj.createdById)
       }
     },
     editedBy: {
       type: UserType,
-      resolve: (_source) => {
-        return User.findById(_source.editedById)
+      resolve: (obj) => {
+        return User.findById(obj.editedById)
       }
     },
     tasks: {
@@ -60,7 +60,11 @@ const ProjectType = new GraphQLObjectType({
         before: { type: CursorType }
       },
       resolve: async (obj, { first, last, after, before }) => {
-        const { data, pageInfo } = await getAllJobs('projectId', 'task', obj, { first, last, after, before })
+        const filterOpts = {
+          type: 'task',
+          projectId: obj.id
+        }
+        const { data, pageInfo } = await getAllJobs(obj, { first, last, after, before }, filterOpts)
         return {
           data,
           pageInfo
@@ -76,7 +80,11 @@ const ProjectType = new GraphQLObjectType({
         before: { type: CursorType }
       },
       resolve: async (obj, { first, last, after, before }) => {
-        const { data, pageInfo } = await getAllJobs('projectId', 'issue', obj, { first, last, after, before })
+        const filterOpts = {
+          type: 'issue',
+          projectId: obj.id
+        }
+        const { data, pageInfo } = await getAllJobs(obj, { first, last, after, before }, filterOpts)
         return {
           data,
           pageInfo

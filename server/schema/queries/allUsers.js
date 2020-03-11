@@ -1,10 +1,11 @@
 import { GraphQLInt } from 'graphql'
-import { getAllProjects } from '../../models/Project'
-import ProjectConnectionType from '../types/ProjectConnection'
 import CursorType from '../types/Cursor'
+import { getAllUsers } from '../../models/User'
+import UserConnectionType from '../types/UserConnection'
 
-const allProjectsQuery = {
-  type: ProjectConnectionType,
+const allUsersQuery = {
+  type: UserConnectionType,
+  description: 'Returns all the Users',
   args: {
     first: { type: GraphQLInt },
     last: { type: GraphQLInt },
@@ -12,7 +13,7 @@ const allProjectsQuery = {
     before: { type: CursorType }
   },
   resolve: async (obj, { first, last, after, before }) => {
-    const { data, pageInfo } = await getAllProjects(obj, { first, last, after, before })
+    const { data, pageInfo } = await getAllUsers(obj, { first, last, after, before })
     return {
       data,
       pageInfo
@@ -20,4 +21,4 @@ const allProjectsQuery = {
   }
 }
 
-export default allProjectsQuery
+export default allUsersQuery

@@ -36,10 +36,10 @@ const Job = mongoose.model('Job', jobSchema)
 
 export default Job
 
-export async function getAllJobs (connField, type, obj, { first, last, after, before }) {
-  const filter = {
-    type: type,
-    [connField]: obj.id
+export async function getAllJobs (obj, { first, last, after, before }, filterOptions) {
+  let filter = {}
+  if (filterOptions) {
+    filter = filterOptions
   }
   applyCursorsToFilter(filter, after, before)
 

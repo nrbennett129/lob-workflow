@@ -10,8 +10,7 @@ const userQuery = {
       description: 'The id of the user.'
     }
   },
-  resolve: (_source, { id }) => {
-    // code to get data from db or other source
+  resolve: (obj, { id }) => {
     return User.findById(id)
   }
 }

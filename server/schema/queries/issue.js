@@ -1,18 +1,18 @@
 import { GraphQLID, GraphQLNonNull } from 'graphql'
-import TaskType from '../types/Task'
+import IssueType from '../types/Issue'
 import Job from '../../models/Job'
 
-const taskQuery = {
-  type: TaskType,
+const issueQuery = {
+  type: IssueType,
   args: {
     id: {
       type: GraphQLNonNull(GraphQLID),
-      description: 'The id of the task.'
+      description: 'The id of the issue.'
     }
   },
-  resolve: (_source, { id }) => {
+  resolve: (obj, { id }) => {
     return Job.findById(id)
   }
 }
 
-export default taskQuery
+export default issueQuery
